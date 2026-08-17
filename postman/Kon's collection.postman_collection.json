@@ -1,0 +1,232 @@
+{
+  "info": {
+    "_postman_id": "50b3390d-538f-4d09-ba60-33fa5163cdfa",
+    "name": "Kon's collection",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57338628",
+    "_collection_link": "https://go.postman.co/collection/57338628-50b3390d-538f-4d09-ba60-33fa5163cdfa?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Create",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.environment.set('objectName', `Kon's super deluxe phone version ${Math.floor(Math.random() * 100)}`);\r\n\r\npm.environment.set('objectPrice', Math.floor(Math.random() * 1000));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response as non empty id\", () => {\r\n    pm.expect(pm.response.json().id).to.not.be.empty\r\n})\r\n\r\npm.test(\"Response name is equal to objectName\", () => {\r\n    pm.expect(pm.response.json().name).to.eql(pm.environment.get(\"objectName\"))\r\n})\r\n\r\npm.test(\"Response price is equal to objectPrice\", () => {\r\n    pm.expect(pm.response.json().data.price).to.eql(Number(pm.environment.get(\"objectPrice\")))\r\n})\r\n\r\npm.environment.set(\"objectId\", pm.response.json().id)"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"{{objectName}}\",\r\n    \"data\": {\r\n        \"year\": 2026,\r\n        \"price\": {{objectPrice}},\r\n        \"CPU model\": \"QA Silicon\",\r\n        \"Hard disk size\": \"512 GB\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/objects",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "objects"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Read",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response id is equal to objectID\", () => {\r\n    pm.expect(pm.response.json().id).to.eql(pm.environment.get(\"objectId\"))\r\n});\r\n\r\npm.test(\"Response name is equal to objectName\", () => {\r\n    pm.expect(pm.response.json().name).to.eql(pm.environment.get(\"objectName\"))\r\n});\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/objects/{{objectId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "objects",
+            "{{objectId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.environment.set(\"objectPrice\", pm.environment.get(\"objectPrice\") * 5.5);\r\npm.environment.set(\"objectName\", pm.environment.get(\"objectName\") + \" - Now with 10% more power!\");"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response name is equal to objectName\", () => {\r\n    pm.expect(pm.response.json().name).to.eql(pm.environment.get(\"objectName\"))\r\n});\r\n\r\npm.test(\"Response price is equal to objectPrice\", () => {\r\n    pm.expect(pm.response.json().data.price).to.eql(Number(pm.environment.get(\"objectPrice\")))\r\n});\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"{{objectName}}\",\r\n    \"data\": {\r\n        \"year\": 2026,\r\n        \"price\": {{objectPrice}},\r\n        \"CPU model\": \"QA Silicon\",\r\n        \"Hard disk size\": \"512 GB\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/objects/{{objectId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "objects",
+            "{{objectId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n pm.test(\"Response includes the deleted ID\", () => {\r\n    pm.expect(pm.response.json().message).to.include(pm.environment.get(\"objectId\"));\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/objects/{{objectId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "objects",
+            "{{objectId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Read 404",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\n    pm.response.to.have.status(404);\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/objects/{{objectId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "objects",
+            "{{objectId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.restful-api.dev"
+    }
+  ]
+}
